@@ -3,7 +3,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from pytorch_lightning import LightningModule
-from torchmetrics.functional.classification import multiclass_accuracy
 from torchinfo import summary
 
 
@@ -22,8 +21,9 @@ class BaseModel(LightningModule):
         """Evaluate model on a batch of data."""
         x, y = batch
         logits = self(x)
+        pred = torch.argmax(logits, dim=1)
         loss = F.cross_entropy(logits, y)
-        acc = multiclass_accuracy(logits, y, num_classes=self.num_classes)
+        acc = torch.sum(pred == y).float() / len(y)
         self.log(f"{stage}_loss", loss, logger=True)
         self.log(f"{stage}_acc", acc, logger=True)
         return loss, acc
