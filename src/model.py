@@ -4,6 +4,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from pytorch_lightning import LightningModule
 from torchmetrics.functional.classification import multiclass_accuracy
+from torchinfo import summary
 
 
 class BaseModel(LightningModule):
@@ -12,6 +13,10 @@ class BaseModel(LightningModule):
     def __init__(self, cfg):
         super().__init__()
         self.cfg = cfg
+
+    def on_train_start(self):
+        """Log model summary at the start of training."""
+        summary(self, input_size=(1, 28, 28), verbose=self.cfg.verbose)
 
     def evaluate(self, batch, stage=None):
         """Evaluate model on a batch of data."""
