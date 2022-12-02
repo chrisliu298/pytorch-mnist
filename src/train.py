@@ -25,6 +25,7 @@ def parse_args():
     parser.add_argument(
         "--init", type=str, default="uniform", choices=["uniform", "normal"]
     )
+    parser.add_argument("--dropout", type=float, default=0.0)
     # Training
     parser.add_argument(
         "--optimizer", type=str, default="adam", choices=["adam", "sgd"]
