@@ -39,7 +39,7 @@ def parse_args():
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--project", type=str, default="mnist")
     parser.add_argument("--wandb", action="store_true")
-    parser.add_argument("--verbose", type=int, default=0)
+    parser.add_argument("--verbose", action="store_true")
     cfg = parser.parse_args()
     cfg = Dict(vars(cfg))
     # Auto num_workers
@@ -79,7 +79,7 @@ def main():
         profiler="simple",
         check_val_every_n_epoch=1,
         benchmark=True,
-        enable_progress_bar=cfg.verbose > 0,
+        enable_progress_bar=cfg.verbose,
     )
     # Train
     trainer.fit(model, datamodule=datamodule)
@@ -87,7 +87,7 @@ def main():
     trainer.test(ckpt_path="best", datamodule=datamodule)
     # Test
     trainer.test(ckpt_path="best", datamodule=datamodule)
-    wandb.finish(quiet=cfg.verbose == 0)
+    wandb.finish(quiet=not cfg.verbose)
 
 
 if __name__ == "__main__":
