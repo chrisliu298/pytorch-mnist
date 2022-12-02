@@ -97,10 +97,17 @@ class FCN(BaseModel):
             nn.init.zeros_(layer.bias)
             self._layers.append(layer)
             self.add_module(f"layer_{i}", layer)
+            if self.cfg.dropout > 0:
+                dropout = nn.Dropout(self.cfg.dropout)
+                self._layers.append(dropout)
+                self.add_module(f"dropout_{i}", dropout)
+            act = nn.ReLU()
+            self._layers.append(act)
+            self.add_module(f"act_{i}", act)
 
     def forward(self, x):
         """Forward pass."""
         x = x.flatten(1)
         for layer in self._layers:
-            x = F.relu(layer(x))
+            x = layer(x)
         return x
