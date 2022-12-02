@@ -60,7 +60,11 @@ def main():
     model = FCN(cfg)
     # Callbacks
     checkpoint_callback = ModelCheckpoint(
-        monitor="val_acc_epoch", filename="{epoch:02d}-{val_acc_epoch:.4f}", mode="max"
+        monitor="val_acc_epoch",
+        filename="{epoch:02d}-{val_acc_epoch:.4f}",
+        mode="max",
+        save_top_k=10,
+        save_last=True,
     )
     lr_monitor = LearningRateMonitor(logging_interval="step")
     early_stopping = EarlyStopping(monitor="val_acc_epoch", patience=10, mode="max")
