@@ -88,9 +88,9 @@ def main():
     # Train
     trainer.fit(model, datamodule=datamodule)
     # Validate
-    trainer.test(ckpt_path="best", datamodule=datamodule)
+    trainer.validate(ckpt_path="best", datamodule=datamodule, verbose=cfg.verbose)
     # Test
-    trainer.test(ckpt_path="best", datamodule=datamodule)
+    trainer.test(ckpt_path="best", datamodule=datamodule, verbose=cfg.verbose)
     wandb.finish(quiet=not cfg.verbose)
 
 
