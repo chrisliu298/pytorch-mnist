@@ -80,7 +80,6 @@ def main():
         max_epochs=cfg.max_epochs,
         callbacks=callbacks,
         logger=wandb_logger,
-        profiler="simple",
         check_val_every_n_epoch=1,
         benchmark=True,
         enable_progress_bar=cfg.verbose,
