@@ -86,7 +86,7 @@ def main():
         logger=wandb_logger,
         check_val_every_n_epoch=1,
         benchmark=True,
-        enable_progress_bar=cfg.verbose,
+        enable_progress_bar=False,
     )
     # Train
     trainer.fit(model, datamodule=datamodule)
