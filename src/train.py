@@ -71,8 +71,7 @@ def main():
         save_last=True,
     )
     lr_monitor = LearningRateMonitor(logging_interval="step")
-    early_stopping = EarlyStopping(monitor="avg_val_acc", patience=10, mode="max")
-    callbacks = [checkpoint_callback, lr_monitor, early_stopping]
+    callbacks = [checkpoint_callback, lr_monitor]
     # Logger
     wandb_logger = WandbLogger(
         offline=not cfg.wandb, project=cfg.project, config=cfg, entity="chrisliu298"
