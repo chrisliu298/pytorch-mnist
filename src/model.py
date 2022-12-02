@@ -92,7 +92,8 @@ class FCN(BaseModel):
         self._layers = []
         for i in range(len(layer_dims) - 1):
             layer = nn.Linear(layer_dims[i], layer_dims[i + 1])
-            nn.init.normal_(layer.weight, mean=0, std=(1 / layer_dims[i]) ** 0.5)
+            if self.cfg.init == "normal":
+                nn.init.normal_(layer.weight, mean=0, std=(1 / layer_dims[i]) ** 0.5)
             nn.init.zeros_(layer.bias)
             self._layers.append(layer)
             self.add_module(f"layer_{i}", layer)

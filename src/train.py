@@ -22,6 +22,9 @@ def parse_args():
     parser.add_argument("--data_dir", type=str, default="./")
     # Model
     parser.add_argument("--layer_dims", type=str, default="784x512x256x128x10")
+    parser.add_argument(
+        "--init", type=str, default="uniform", choices=["uniform", "normal"]
+    )
     # Training
     parser.add_argument(
         "--optimizer", type=str, default="adam", choices=["adam", "sgd"]
