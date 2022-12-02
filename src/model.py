@@ -18,7 +18,7 @@ class BaseModel(LightningModule):
         x, y = batch
         logits = self(x)
         loss = F.cross_entropy(logits, y)
-        acc = multiclass_accuracy(logits, y)
+        acc = multiclass_accuracy(logits, y, num_classes=self.num_classes)
         self.log(f"{stage}_loss", loss, logger=True)
         self.log(f"{stage}_acc", acc, logger=True)
         return loss, acc
@@ -79,6 +79,7 @@ class FCN(BaseModel):
     def __init__(self, cfg):
         super().__init__(cfg)
         self.layer_dims = [int(x) for x in cfg.layer_dims.split("x")]
+        self.num_classes = self.layer_dims[-1]
         self.build_layers(self.layer_dims)
 
     def build_layers(self, layer_dims):
