@@ -32,6 +32,12 @@ def parse_args():
         "--optimizer", type=str, default="adam", choices=["adam", "sgd"]
     )
     parser.add_argument("--lr", type=float, default=1e-4)
+    parser.add_argument(
+        "--lr_schedule",
+        type=str,
+        default="constant",
+        choices=["constant", "inverse", "inverse_slow", "inverse_sqrt"],
+    )
     parser.add_argument("--wd", type=float, default=0.0)
     parser.add_argument("--momentum", type=float, default=0.0)
     parser.add_argument("--batch_size", type=int, default=128)

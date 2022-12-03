@@ -5,6 +5,8 @@ import torch.optim as optim
 from pytorch_lightning import LightningModule
 from torchinfo import summary
 
+from util import lr_schedule
+
 
 class BaseModel(LightningModule):
     """A base class for all models."""
@@ -77,7 +79,15 @@ class BaseModel(LightningModule):
             optimizer = optim.AdamW(
                 self.parameters(), lr=self.cfg.lr, weight_decay=self.cfg.wd
             )
-        return optimizer
+        lr_schedule = lr_schedule(self.cfg.lr_schedule)
+        lr_scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_schedule)
+        return {
+            "optimizer": optimizer,
+            "lr_scheduler": {
+                "scheduler": lr_scheduler,
+                "interval": "step" if self.cfg.lr_schedule == "inverse" else "epoch",
+            },
+        }
 
 
 class FCN(BaseModel):
