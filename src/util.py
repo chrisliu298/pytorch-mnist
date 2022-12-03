@@ -1,4 +1,4 @@
-def lr_schedule(lr_schedule_type):
+def get_lr_schedule(lr_schedule_type):
     """Return a learning rate scheduler function."""
     if lr_schedule_type == "constant":
         return lambda t: 1

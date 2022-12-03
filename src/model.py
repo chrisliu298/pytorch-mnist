@@ -5,7 +5,7 @@ import torch.optim as optim
 from pytorch_lightning import LightningModule
 from torchinfo import summary
 
-from util import lr_schedule
+from util import get_lr_schedule
 
 
 class BaseModel(LightningModule):
@@ -79,7 +79,7 @@ class BaseModel(LightningModule):
             optimizer = optim.AdamW(
                 self.parameters(), lr=self.cfg.lr, weight_decay=self.cfg.wd
             )
-        lr_schedule = lr_schedule(self.cfg.lr_schedule)
+        lr_schedule = get_lr_schedule(self.cfg.lr_schedule)
         lr_scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_schedule)
         return {
             "optimizer": optimizer,
